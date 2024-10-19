@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-# To use the cascadeClassifier
+# Load the Haar Cascade classifier for face detection
 face_cap = cv2.CascadeClassifier("C:/Users/Karan Vardhan Raj/anaconda3/Lib/site-packages/cv2/data/haarcascade_frontalface_alt.xml")
 
 # Function to apply deblurring (Wiener Filter approximation)
@@ -58,24 +58,25 @@ def process_video(input_path, output_path):
         
         # Upscale the resolution
         upscale_frame = upscale_image(enhanced_frame, scale_factor=2)
-        
-        # Write the processed frame to output
-        out.write(upscale_frame)
-        
-        # Display the processed frame for testing
-        upscale_frame= cv2.resize(upscale_frame , (700 , 480))
-        gray = cv2.cvtColor(upscale_frame , cv2.COLOR_BGR2GRAY)
+
+        # Prepare for face detection
+        gray = cv2.cvtColor(upscale_frame, cv2.COLOR_BGR2GRAY)
         faces = face_cap.detectMultiScale(
             gray,
-            scaleFactor = 1.1,
-            minNeighbors = 5,
-            minSize = (30,30),
-            flags = cv2.CASCADE_SCALE_IMAGE
+            scaleFactor=1.1,
+            minNeighbors=5,
+            minSize=(30, 30),
+            flags=cv2.CASCADE_SCALE_IMAGE
         )
-        for (x,y,w,h) in faces:
-            cv2.rectangle(upscale_frame , (x,y) , (x + h , y + h) , (0 , 255 , 0) , 2)
-        # cv2.imshow("Cap" , upscale_frame)
 
+        # Draw rectangles around detected faces
+        for (x, y, w, h) in faces:
+            cv2.rectangle(upscale_frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+        # Write the processed frame with detected faces to output
+        out.write(upscale_frame)
+
+        # Display the processed frame for testing
         cv2.imshow('Enhanced Video', upscale_frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
