@@ -1,3 +1,4 @@
+
 import cv2 # type: ignore
 import numpy as np
 
@@ -66,6 +67,16 @@ def process_video(input_path, output_path, custom_width=None, custom_height=None
         # Enhance low light using histogram equalization
         enhanced_frame = enhance_low_light(bright_contrast_frame)
         
+        # Apply deblurring
+        deblurred_frame = deblur_image(enhanced_frame)
+
+        # Enhance brightness and contrast
+        bright_contrast_frame = enhance_brightness_contrast(deblurred_frame)
+        
+
+        # Apply Gaussian blur for noise reduction
+        enhanced_frame = cv2.GaussianBlur(bright_contrast_frame, (3, 3), 0)
+
         # Resize the frame to custom dimensions
         resized_frame = resize_image(enhanced_frame, custom_width, custom_height)
 
@@ -84,7 +95,7 @@ def process_video(input_path, output_path, custom_width=None, custom_height=None
             cv2.rectangle(resized_frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
         # Write the processed frame with detected faces to output
-        out.write(resized_frame)
+        out.write(enhanced_frame)
 
         # Display the processed frame for testing
         cv2.imshow('Enhanced Video', resized_frame)
@@ -96,10 +107,10 @@ def process_video(input_path, output_path, custom_width=None, custom_height=None
     cv2.destroyAllWindows()
 
 # Path to input video
-input_video = 'D:/vd/sp.mp4'
+input_video = 'D:/vd/sample.mp4'
 
 # Path to output video
-output_video = 'C:/Users/Karan Vardhan Raj/Downloads/new2.mp4'
+output_video = 'D:/vd/array.mp4'
 
 # Specify custom resolution (e.g., 1280x720)
 custom_width = 720
