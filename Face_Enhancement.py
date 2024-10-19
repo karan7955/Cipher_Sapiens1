@@ -1,6 +1,9 @@
 import cv2
 import numpy as np
 
+# To use the cascadeClassifier
+face_cap = cv2.CascadeClassifier("C:/Users/Karan Vardhan Raj/anaconda3/Lib/site-packages/cv2/data/haarcascade_frontalface_alt.xml")
+
 # Function to apply deblurring (Wiener Filter approximation)
 def deblur_image(image, kernel_size=(5, 5)):
     kernel = np.ones(kernel_size, np.float32) / np.prod(kernel_size)
@@ -60,6 +63,19 @@ def process_video(input_path, output_path):
         out.write(upscale_frame)
         
         # Display the processed frame for testing
+        upscale_frame= cv2.resize(upscale_frame , (700 , 480))
+        gray = cv2.cvtColor(upscale_frame , cv2.COLOR_BGR2GRAY)
+        faces = face_cap.detectMultiScale(
+            gray,
+            scaleFactor = 1.1,
+            minNeighbors = 5,
+            minSize = (30,30),
+            flags = cv2.CASCADE_SCALE_IMAGE
+        )
+        for (x,y,w,h) in faces:
+            cv2.rectangle(upscale_frame , (x,y) , (x + h , y + h) , (0 , 255 , 0) , 2)
+        # cv2.imshow("Cap" , upscale_frame)
+
         cv2.imshow('Enhanced Video', upscale_frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
