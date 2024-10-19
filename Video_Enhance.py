@@ -95,7 +95,7 @@ def process_video(input_path, output_path, custom_width=None, custom_height=None
             cv2.rectangle(resized_frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
         # Write the processed frame with detected faces to output
-        out.write(enhanced_frame)
+        out.write(resized_frame)
 
         # Display the processed frame for testing
         cv2.imshow('Enhanced Video', resized_frame)
@@ -107,10 +107,10 @@ def process_video(input_path, output_path, custom_width=None, custom_height=None
     cv2.destroyAllWindows()
 
 # Path to input video
-input_video = 'D:/vd/sample.mp4'
+input_video = 'D:/vd/Input/sample.mp4'
 
 # Path to output video
-output_video = 'D:/vd/array.mp4'
+output_video = 'D:/vd/Output/out.mp4'
 
 # Specify custom resolution (e.g., 1280x720)
 custom_width = 720
