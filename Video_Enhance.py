@@ -107,10 +107,10 @@ def process_video(input_path, output_path, custom_width=None, custom_height=None
     cv2.destroyAllWindows()
 
 # Path to input video
-input_video = 'D:/vd/Input/sample.mp4'
+input_video = 'D:/vd/Input/ok.mp4'
 
 # Path to output video
-output_video = 'D:/vd/Output/out.mp4'
+output_video = 'D:/vd/Output/out2.mp4'
 
 # Specify custom resolution (e.g., 1280x720)
 custom_width = 720
